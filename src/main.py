@@ -5,7 +5,7 @@ import settings
 
 try:
     print(f"Beginning application: {settings.app.__name__}")
-    settings.app.main()
+    settings.app.main(settings)
 except Exception as e:
     print("Fatal error in main:")
     print(e)

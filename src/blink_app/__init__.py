@@ -4,15 +4,11 @@ from time import sleep
 import js_platform
 
 
-ssid = "Unbelievable Krimewave"
-password = "ba55OON-|-|-<"
-
-
-def main():
+def main(settings):
     led = Pin(8, Pin.OUT)
 
     wifi = js_platform.wifi.Wifi()
-    wifi.connect(ssid, password)
+    wifi.connect(settings.secrets["wifi_ssid"], settings.secrets["wifi_password"])
 
     while True:
         print("In the app, looping the loop")

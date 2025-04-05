@@ -25,6 +25,32 @@ Runs applicaiton code.
 Import whatever app as `app`. The package should have a function
 called `main()` that will be used to begin app execution.
 
+## `settings.py`
+
+App settings file.
+
+Currently requires only `APP` to be set, but can also load secrets so
+that passwords, keys, etc don't have to be stored in source and can be
+easily kept out of repos.
+
+```python
+import js_platform
+
+# App to load and run
+APP = "blink_app"
+
+# File containing vars not to be checked in to repo
+# Set to None if not required
+SECRETS_FILE = "./secrets.txt"
+
+app = __import__(APP)
+
+
+# Load secrets
+secrets = js_platform.settings.load_secrets(SECRETS_FILE)
+
+```
+
 # To Do
 
 ## Config/settings

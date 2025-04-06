@@ -19,9 +19,10 @@ STATUS_STRINGS = {
 
 
 class Wifi:
-    def __init__(self):
+    def __init__(self, settings=None):
         self.wlan = network.WLAN(network.WLAN.IF_STA)
         self.ap_list = []
+        self.settings = settings
 
     def status(self):
         return self.wlan.status()
@@ -43,6 +44,11 @@ class Wifi:
             return False
 
     def connect(self, ssid, password):
+        hostname = "JS Platform"
+        if self.settings is not None:
+            if self.settings.HOSTNAME is not None:
+                hostname = self.settings.HOSTNAME
+        network.hostname(hostname)
         self.wlan.active(True)
         self.wlan.connect(ssid, password)
         while not self.wlan.isconnected():
@@ -53,5 +59,17 @@ class Wifi:
         self.wlan.active(True)
         self.ap_list = self.wlan.scan()
 
+    def info(self):
+        data = {}
+        ifc = self.wlan.ifconfig()
+        data["ip"] = ifc[0]
+        data["subnet"] = ifc[1]
+        data["gateway"] = ifc[2]
+        data["dns"] = ifc[3]
+        data["mac"] = self.wlan.config("mac")
+        data["ssid"] = self.wlan.config("ssid")
+        data["hostname"] = network.hostname()
+        return data
 
-#  LocalWords:  Wifi
+
+#  LocalWords:  Wifi ifconfig subnet dns

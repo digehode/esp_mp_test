@@ -33,6 +33,14 @@ Currently requires only `APP` to be set, but can also load secrets so
 that passwords, keys, etc don't have to be stored in source and can be
 easily kept out of repos.
 
+`REQUIREMENTS_FILE` is a filename or None. If it is a file, a list of
+sources (in any format
+[mip](https://docs.micropython.org/en/latest/reference/packages.html#installing-packages-with-mip)
+accepts), one per line, should be in it. These will be installed on
+launch.  It will get re-processed on even a soft reset, but mip knows
+when something already exists so will cause no issues other than the
+slight overhead.
+
 ```python
 import js_platform
 
@@ -43,12 +51,23 @@ APP = "blink_app"
 # Set to None if not required
 SECRETS_FILE = "./secrets.txt"
 
-app = __import__(APP)
 
+# File containing micropython library requirements, one per line
+# Set to None if not required
+REQUIREMENTS_FILE = "./mp_requirements.txt"
+
+
+# The hostname used for connecting to the network
+HOSTNAME = "esp-test"
+
+
+# --- No need to edit below
+
+# Import the app
+app = __import__(APP)
 
 # Load secrets
 secrets = js_platform.settings.load_secrets(SECRETS_FILE)
-
 ```
 
 # To Do

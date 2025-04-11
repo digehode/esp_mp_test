@@ -7,9 +7,11 @@ def install_requirements(filename):
     if filename is not None:
         if not utils.exists(filename):
             raise Exception(f"Requirements file ({filename}) not found")
-        f = open(filename, "r")
-        for l in f.readlines():
-            mip.install(l.strip())
+        with open(filename, "r") as f:
+            for line in f.readlines():
+                line = line.strip()
+                if not line.startswith("#"):
+                    mip.install(line)
 
 
 def load_secrets(filename):
@@ -19,8 +21,11 @@ def load_secrets(filename):
             raise Exception(f"Settings file ({filename}) not found")
         secrets = {}
         f = open(filename, "r")
-        for l in f.readlines():
-            k, v = l.split("=", 1)
+        for line in f.readlines():
+            line = line.strip()
+            if line.startswith("#"):
+                continue
+            k, v = line.split("=", 1)
             secrets[k.strip()] = eval(v.strip())
     return secrets
 

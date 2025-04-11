@@ -1,22 +1,22 @@
 from machine import Pin
 from time import sleep
-from simple import MQTTClient
 
 import js_platform
+import mqtt_adapter
 
 
 def main(settings):
 
     wifi = settings.wifi
-    c = MQTTClient(
-        settings.HOSTNAME,
+    c = mqtt_adapter.MQTTAdapter(settings.HOSTNAME)
+    c.initialise(
         settings.secrets["mqtt_server"],
-        user=settings.secrets["mqtt_user"],
-        password=settings.secrets["mqtt_password"],
+        settings.secrets["mqtt_user"],
+        settings.secrets["mqtt_password"],
     )
-    c.connect(timeout=10)
-    c.publish(b"ESP", b"hello")
-    c.disconnect()
+    c.add_action("debug", lambda: print("Got a debug message"))
+    # c.publish(b"ESP", b"hello")
+    # c.disconnect()
 
     while True:
         print("In the app, looping the loop")
@@ -26,6 +26,7 @@ def main(settings):
             print("Wifi not connected")
             print(f"Wifi status: {wifi.status_string()}")
         sleep(3)
+        c.tick()
 
 
 #  LocalWords:  uart baudrate rx

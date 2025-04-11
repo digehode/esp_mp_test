@@ -1,1 +1,2 @@
 https://raw.githubusercontent.com/micropython/micropython-lib/refs/heads/master/micropython/umqtt.simple/umqtt/simple.py
+neopixel

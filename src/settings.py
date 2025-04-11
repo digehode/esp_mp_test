@@ -1,7 +1,7 @@
 import js_platform
 
 # App to load and run
-APP = "umqtt_test"
+APP = "neo_pixel_demo"
 
 # File containing vars not to be checked in to repo
 # Set to None if not required
